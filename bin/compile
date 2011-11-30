@@ -4,7 +4,7 @@
 # fail fast
 set -e
 
-mktmpdir() {
+function mktmpdir() {
   dir=$(mktemp -t node-$1-XXXX)
   rm -rf $dir
   mkdir -p $dir
@@ -17,6 +17,10 @@ function indent() {
     Darwin) sed -l "$c";;
     *)      sed -u "$c";;
   esac
+}
+
+function manifest_versions() {
+  curl "http://${S3_BUCKET}.s3.amazonaws.com/manifest.${1}" -s -o -
 }
 
 # config
@@ -41,6 +45,9 @@ SCONS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/scons-${SCONS_VERSION}.tgz"
 VENDORED_NODE="$(mktmpdir node)"
 VENDORED_NPM="$(mktmpdir npm)"
 VENDORED_SCONS="$(mktmpdir scons)"
+
+# determine node version
+echo "available versions of node: $(manifest_versions "nodejs")"
 
 # download and unpack packages
 echo "-----> Fetching Node.js binaries"
