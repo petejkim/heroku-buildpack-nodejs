@@ -33,7 +33,8 @@ mkdir -p $tempdir
 pushd $tempdir
 
 # download and extract node
-curl http://nodejs.org/dist/node-v${node_version}.tar.gz -o node.tgz
+curl http://nodejs.org/dist/v0.6.5/node-v${node_version}.tar.gz -o node.tgz
+#curl http://nodejs.org/dist/node-v${node_version}.tar.gz -o node.tgz
 tar xzvf node.tgz
 
 # go into node dir
